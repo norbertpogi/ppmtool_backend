@@ -29,11 +29,12 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         //set the bl to pt
         projectTask.setBacklog(backlog);
         //we want our project sequence to be like this: IDPRO-1  IDPRO-2  ...100 101
-        Integer BacklogSequence = backlog.getPTSequence();
+        Integer backlogSequence = backlog.getPTSequence();
         // Update the BL SEQUENCE
-        BacklogSequence++;
+        backlogSequence++;
+        backlog.setPTSequence(backlogSequence);
         //Add Sequence to Project Task
-        projectTask.setProjectSequence(projectIdentifier+"-"+BacklogSequence);
+        projectTask.setProjectSequence(projectIdentifier+"-"+backlogSequence);
         projectTask.setProjectIdentifier(projectIdentifier);
         //INITIAL priority when priority null
         if(null == projectTask.getPriority()||projectTask.getPriority() == 0){
