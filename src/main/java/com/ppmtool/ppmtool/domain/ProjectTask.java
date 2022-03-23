@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ProjectTask {
 
     @Id
@@ -30,6 +32,10 @@ public class ProjectTask {
     private Date dueDate;
 
     //ManyToOne with Backlog
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name="backlog_id", updatable = false, nullable = false)
+    @JsonIgnore
+    private Backlog backlog;
 
     @Column(updatable = false)
     private String projectIdentifier;
@@ -48,20 +54,4 @@ public class ProjectTask {
         this.update_At = new Date();
     }
 
-    @Override
-    public String toString() {
-        return "ProjectTask{" +
-                "id=" + id +
-                ", projectSequence='" + projectSequence + '\'' +
-                ", summary='" + summary + '\'' +
-                ", acceptanceCriteria='" + acceptanceCriteria + '\'' +
-                ", status='" + status + '\'' +
-                ", priority=" + priority +
-                ", dueDate=" + dueDate +
-               // ", backlog=" + backlog +
-                ", projectIdentifier='" + projectIdentifier + '\'' +
-                ", create_At=" + create_At +
-                ", update_At=" + update_At +
-                '}';
-    }
 }
