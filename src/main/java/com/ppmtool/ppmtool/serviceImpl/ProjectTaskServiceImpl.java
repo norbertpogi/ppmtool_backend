@@ -2,11 +2,16 @@ package com.ppmtool.ppmtool.serviceImpl;
 
 import com.ppmtool.ppmtool.domain.Backlog;
 import com.ppmtool.ppmtool.domain.ProjectTask;
+import com.ppmtool.ppmtool.exceptions.ProjectIdException;
 import com.ppmtool.ppmtool.repositories.BacklogRepository;
 import com.ppmtool.ppmtool.repositories.ProjectTaskRepository;
 import com.ppmtool.ppmtool.services.ProjectTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {
@@ -22,10 +27,8 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
     @Override
     public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
-        //Exceptions: Project not found
-
         //PTs to be added to a specific project, project != null, BL exists
-        Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+        Backlog backlog = this.getBacklogById(projectIdentifier);
         //set the bl to pt
         projectTask.setBacklog(backlog);
         //we want our project sequence to be like this: IDPRO-1  IDPRO-2  ...100 101
@@ -49,6 +52,23 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
     @Override
     public Iterable<ProjectTask> findBacklogById(String backlog_id) {
-        return projectTaskRepository.findByProjectIdentifierOrderByPriority(backlog_id);
+        Iterable<ProjectTask> projectTask = this.getProjectTaskRecord(backlog_id);
+        return projectTask;
+    }
+
+    private Iterable<ProjectTask> getProjectTaskRecord(String backlog_id) {
+        List<ProjectTask> pr = projectTaskRepository.findByProjectIdentifierOrderByPriority(backlog_id);
+        if(pr.size() == 0) {
+            throw new ProjectIdException("Project Id " + backlog_id + " is not exists!");
+        }
+        return pr;
+    }
+
+    private Backlog getBacklogById(String projectIdentifier) {
+        Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+        if (null == backlog) {
+            throw new ProjectIdException("Project Id " + projectIdentifier + " is not exists!");
+        }
+        return backlog;
     }
 }
