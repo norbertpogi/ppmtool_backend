@@ -4,3 +4,5 @@ https://agileintppmtool.herokuapp.com/dashboard
 added backlog project tasks entities
 https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch31
 
+setting up the relationship between backloEntities and projectTaskEntities
+https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch32
