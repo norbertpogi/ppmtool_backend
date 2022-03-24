@@ -18,3 +18,7 @@ https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch36
 
 handleProjectNotFound Exception
 https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch37
+
+https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch38
+https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch39
+findProjectTaskBySequence and add validation

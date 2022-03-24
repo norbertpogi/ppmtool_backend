@@ -56,6 +56,14 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         return projectTask;
     }
 
+    @Override
+    public ProjectTask findPTByProjectSequence(String backlog_id, String pt_id) {
+            //make sure we are searching on the right backlog
+            this.getBacklogById(backlog_id);
+            ProjectTask prTask = getProjectTaskSequence(pt_id);
+            return prTask;
+    }
+
     private Iterable<ProjectTask> getProjectTaskRecord(String backlog_id) {
         List<ProjectTask> pr = projectTaskRepository.findByProjectIdentifierOrderByPriority(backlog_id);
         if(pr.size() == 0) {
@@ -70,5 +78,13 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
             throw new ProjectIdException("Project Id " + projectIdentifier + " is not exists!");
         }
         return backlog;
+    }
+
+    private ProjectTask getProjectTaskSequence(String pt_id) {
+        ProjectTask ptSeq = projectTaskRepository.findByProjectSequence(pt_id);
+        if(null == ptSeq) {
+            throw new ProjectIdException("projectSequence " + pt_id + " is not exist");
+        }
+        return ptSeq;
     }
 }
