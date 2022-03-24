@@ -64,6 +64,14 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
             return prTask;
     }
 
+    @Override
+    public ProjectTask updateByProjectSequence(ProjectTask updatedProjectTask, String backlog_id, String pt_id) {
+            this.getBacklogById(backlog_id);
+            ProjectTask projectTask = this.getProjectTaskSequence(pt_id);
+            projectTask = updatedProjectTask;
+        return projectTaskRepository.save(projectTask);
+    }
+
     private Iterable<ProjectTask> getProjectTaskRecord(String backlog_id) {
         List<ProjectTask> pr = projectTaskRepository.findByProjectIdentifierOrderByPriority(backlog_id);
         if(pr.size() == 0) {
