@@ -26,3 +26,6 @@ findProjectTaskBySequence and add validation
 finish updateProjectTask and validation
 
 working on deleting projectTask
+
+fix bug in deleting projecTask
+https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch42

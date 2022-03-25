@@ -32,8 +32,8 @@ public class ProjectTask {
     private Date dueDate;
 
     //ManyToOne with Backlog
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinColumn(name="backlog_id", updatable = false, nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="backlog_id", updatable = false, nullable = false) //remove refresh causing bug in db
     @JsonIgnore
     private Backlog backlog;
 
