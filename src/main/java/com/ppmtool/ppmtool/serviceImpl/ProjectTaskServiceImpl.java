@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {
@@ -70,6 +68,17 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
             ProjectTask projectTask = this.getProjectTaskSequence(pt_id);
             projectTask = updatedProjectTask;
         return projectTaskRepository.save(projectTask);
+    }
+
+    @Override
+    public void deletePTByProjectSequence(String backlog_id, String pt_id) {
+        ProjectTask projectTask = findPTByProjectSequence(backlog_id, pt_id);
+        Backlog backlog = projectTask.getBacklog();
+        List<ProjectTask> pts = backlog.getProjectTasks();
+        pts.remove(projectTask);
+        backlogRepository.save(backlog);
+
+        projectTaskRepository.delete(projectTask);
     }
 
     private Iterable<ProjectTask> getProjectTaskRecord(String backlog_id) {
