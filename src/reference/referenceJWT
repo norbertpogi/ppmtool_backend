@@ -7,3 +7,5 @@ sample response
   "password": "Invalid Password"
 }
 2:======================
+branch 60
+created User Entity, Service and repository
