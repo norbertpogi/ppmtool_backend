@@ -1,0 +1,9 @@
+1:================
+implement custom response for jwt initialConfig
+https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch59
+sample response
+{
+  "username": "Invalid Username",
+  "password": "Invalid Password"
+}
+2:======================
