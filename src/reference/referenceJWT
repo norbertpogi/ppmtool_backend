@@ -9,3 +9,6 @@ sample response
 2:======================
 branch 60
 created User Entity, Service and repository
+
+branch 62
+enabled securityConfig for endpoint and h2 db for test the post
