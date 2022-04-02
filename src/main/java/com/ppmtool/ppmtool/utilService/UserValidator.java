@@ -1,43 +1,28 @@
 package com.ppmtool.ppmtool.utilService;
 
+import com.ppmtool.ppmtool.domain.User;
 import org.springframework.stereotype.Component;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.executable.ExecutableValidator;
-import javax.validation.metadata.BeanDescriptor;
-import java.util.Set;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 @Component
 public class UserValidator implements Validator {
 
     @Override
-    public <T> Set<ConstraintViolation<T>> validate(T t, Class<?>... classes) {
-        return null;
+    public boolean supports(Class<?> clazz) {
+        return User.class.equals(clazz);
     }
 
     @Override
-    public <T> Set<ConstraintViolation<T>> validateProperty(T t, String s, Class<?>... classes) {
-        return null;
-    }
+    public void validate(Object target, Errors errors) {
+        User user = (User) target;
+        if(user.getPassword().length() <6){
+            errors.rejectValue("password","Length", "Password must be at least 6 characters");
+        }
+        if(!user.getPassword().equals(user.getConfirmPassword())){
+            errors.rejectValue("confirmPassword","Match", "Passwords must match");
 
-    @Override
-    public <T> Set<ConstraintViolation<T>> validateValue(Class<T> aClass, String s, Object o, Class<?>... classes) {
-        return null;
-    }
-
-    @Override
-    public BeanDescriptor getConstraintsForClass(Class<?> aClass) {
-        return null;
-    }
-
-    @Override
-    public <T> T unwrap(Class<T> aClass) {
-        return null;
-    }
-
-    @Override
-    public ExecutableValidator forExecutables() {
-        return null;
+        }
+        //confirmPassword
     }
 }

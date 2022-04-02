@@ -12,3 +12,6 @@ created User Entity, Service and repository
 
 branch 62
 enabled securityConfig for endpoint and h2 db for test the post
+
+added validation to confirmUserPassword registration
+https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch63
