@@ -32,6 +32,7 @@ public class User implements UserDetails {
     private String password;
     @Transient //use to just persisting and not using it just to make sure to the user is Remember his password
     private String confirmPassword;
+    @Column(updatable = false)
     private Date created_At;
     private Date updated_At;
 
