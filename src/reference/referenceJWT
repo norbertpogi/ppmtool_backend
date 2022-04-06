@@ -15,3 +15,6 @@ enabled securityConfig for endpoint and h2 db for test the post
 
 added validation to confirmUserPassword registration
 https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch63
+
+jwt preWork
+https://github.com/AgileIntelligence/AgileIntPPMTool/tree/branch64
