@@ -30,6 +30,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project saveUpdateProject(Project project, String username) {
+        this.getValidateProjectUpdate(project,username);
         try {
             User user = userRepository.findByUsername(username);
             project.setUser(user);
@@ -41,9 +42,6 @@ public class ProjectServiceImpl implements ProjectService {
                 project.setBacklog(backlog);
                 backlog.setProject(project);
                 backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
-            }
-            if(project.getId()!=null){
-                project.setBacklog(backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase()));
             }
 
             return projectRepository.save(project);
@@ -68,7 +66,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void deleteByProjectId(String projectId, String username) {
-        //Project project = getProjectByIdentfier(projectId);
         projectRepository.delete(findProjectByIdentifier(projectId, username));
     }
 
@@ -83,4 +80,16 @@ public class ProjectServiceImpl implements ProjectService {
         return project;
     }
 
+    private void getValidateProjectUpdate(Project project, String username) {
+        if(project.getId()!=null){
+            Project existingProject = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
+            project.setBacklog(backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase()));
+            if(existingProject !=null &&(!existingProject.getProjectLeader().equals(username))){
+                throw new ProjectNotFoundException("Project not found in your account");
+            }
+            if(existingProject == null){
+                throw new ProjectNotFoundException("Project with ID: '"+project.getProjectIdentifier()+"' cannot be updated because it doesn't exist");
+            }
+        }
+    }
 }

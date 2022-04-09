@@ -30,3 +30,6 @@ branch 67
 
 lock specific user (read and delete project)
 branch 68
+
+lock specific user (update project)
+branch 69
