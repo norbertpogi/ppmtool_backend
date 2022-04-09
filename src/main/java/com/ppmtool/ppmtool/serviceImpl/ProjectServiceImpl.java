@@ -4,6 +4,7 @@ import com.ppmtool.ppmtool.domain.Backlog;
 import com.ppmtool.ppmtool.domain.Project;
 import com.ppmtool.ppmtool.domain.User;
 import com.ppmtool.ppmtool.exceptions.ProjectIdException;
+import com.ppmtool.ppmtool.exceptions.ProjectNotFoundException;
 import com.ppmtool.ppmtool.repositories.BacklogRepository;
 import com.ppmtool.ppmtool.repositories.ProjectRepository;
 import com.ppmtool.ppmtool.repositories.UserRepository;
@@ -54,26 +55,30 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findProjectByIdentifier(String projectId) {
-        Project project = getProjectByIdentfier(projectId);
+    public Project findProjectByIdentifier(String projectId, String username) {
+        //only want to return the project if the user looking for it is the owner
+        Project project = getProjectByIdentfier(projectId, username);
         return projectRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase());
     }
 
     @Override
-    public Iterable<Project> findAllProject() {
-        return projectRepository.findAll();
+    public Iterable<Project> findAllProject(String username) {
+        return projectRepository.findAllByProjectLeader(username);
     }
 
     @Override
-    public void deleteByProjectId(String projectId) {
-        Project project = getProjectByIdentfier(projectId);
-        projectRepository.delete(project);
+    public void deleteByProjectId(String projectId, String username) {
+        //Project project = getProjectByIdentfier(projectId);
+        projectRepository.delete(findProjectByIdentifier(projectId, username));
     }
 
-    private Project getProjectByIdentfier(String projectId) {
+    private Project getProjectByIdentfier(String projectId, String username) {
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
         if(null == project) {
             throw new ProjectIdException("Project Id " + projectId + " is not exists!");
+        }
+        if(!project.getProjectLeader().equals(username)) {
+            throw new ProjectNotFoundException("Project not found in your account");
         }
         return project;
     }

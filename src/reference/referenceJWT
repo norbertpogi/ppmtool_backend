@@ -27,3 +27,6 @@ branch 66
 
 added one user to many project
 branch 67
+
+lock specific user (read and delete project)
+branch 68
