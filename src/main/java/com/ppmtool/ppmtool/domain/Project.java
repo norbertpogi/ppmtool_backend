@@ -41,6 +41,13 @@ public class Project {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
     private Backlog backlog;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private String projectLeader;
+
     @PrePersist
     protected void onCreate() {
         this.created_At = new Date();
