@@ -12,4 +12,5 @@ import lombok.ToString;
 public class JWTLoginSucessResponse {
     private Boolean success;
     private String token;
+
 }

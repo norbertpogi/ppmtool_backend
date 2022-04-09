@@ -1,7 +1,6 @@
 package com.ppmtool.ppmtool.serviceImpl;
 
 import com.ppmtool.ppmtool.domain.User;
-import com.ppmtool.ppmtool.exceptions.ProjectIdException;
 import com.ppmtool.ppmtool.exceptions.UsernameAlreadyExistsException;
 import com.ppmtool.ppmtool.repositories.UserRepository;
 import com.ppmtool.ppmtool.services.UserService;
