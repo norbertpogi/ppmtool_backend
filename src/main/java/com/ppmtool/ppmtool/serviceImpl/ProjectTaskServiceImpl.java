@@ -60,24 +60,25 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
     }
 
     @Override
-    public ProjectTask findPTByProjectSequence(String backlog_id, String pt_id) {
+    public ProjectTask findPTByProjectSequence(String backlog_id, String pt_id, String username) {
             //make sure we are searching on the right backlog
+            projectService.findProjectByIdentifier(backlog_id, username);
             this.getBacklogById(backlog_id);
-            ProjectTask prTask = getProjectTaskSequence(pt_id);
+            ProjectTask prTask = getProjectTaskSequence(pt_id, username);
             return prTask;
     }
 
     @Override
-    public ProjectTask updateByProjectSequence(ProjectTask updatedProjectTask, String backlog_id, String pt_id) {
+    public ProjectTask updateByProjectSequence(ProjectTask updatedProjectTask, String backlog_id, String pt_id, String username) {
             this.getBacklogById(backlog_id);
-            ProjectTask projectTask = this.getProjectTaskSequence(pt_id);
+            ProjectTask projectTask = findPTByProjectSequence(backlog_id, pt_id, username);
             projectTask = updatedProjectTask;
         return projectTaskRepository.save(projectTask);
     }
 
     @Override
-    public void deletePTByProjectSequence(String backlog_id, String pt_id) {
-        ProjectTask projectTask = findPTByProjectSequence(backlog_id, pt_id);
+    public void deletePTByProjectSequence(String backlog_id, String pt_id, String username) {
+        ProjectTask projectTask = findPTByProjectSequence(backlog_id, pt_id, username);
 //        Backlog backlog = projectTask.getBacklog();
 //        List<ProjectTask> pts = backlog.getProjectTasks();
 //        pts.remove(projectTask);
@@ -102,7 +103,7 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         return backlog;
     }
 
-    private ProjectTask getProjectTaskSequence(String pt_id) {
+    private ProjectTask getProjectTaskSequence(String pt_id, String username) {
         ProjectTask ptSeq = projectTaskRepository.findByProjectSequence(pt_id);
         if(null == ptSeq) {
             throw new ProjectIdException("projectSequence " + pt_id + " is not exist");

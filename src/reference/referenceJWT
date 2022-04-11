@@ -36,3 +36,6 @@ branch 69
 
 lock create read project task
 branch 70
+
+lock get update delete (project Task)
+branch 71
