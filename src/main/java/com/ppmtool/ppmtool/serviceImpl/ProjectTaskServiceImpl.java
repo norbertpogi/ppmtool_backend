@@ -5,6 +5,7 @@ import com.ppmtool.ppmtool.domain.ProjectTask;
 import com.ppmtool.ppmtool.exceptions.ProjectIdException;
 import com.ppmtool.ppmtool.repositories.BacklogRepository;
 import com.ppmtool.ppmtool.repositories.ProjectTaskRepository;
+import com.ppmtool.ppmtool.services.ProjectService;
 import com.ppmtool.ppmtool.services.ProjectTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,17 +17,21 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
     private BacklogRepository backlogRepository;
     private ProjectTaskRepository projectTaskRepository;
+    private ProjectService projectService;
 
     @Autowired
-    public ProjectTaskServiceImpl(BacklogRepository backlogRepository, ProjectTaskRepository projectTaskRepository) {
+    public ProjectTaskServiceImpl(BacklogRepository backlogRepository,
+                                  ProjectTaskRepository projectTaskRepository,
+                                  ProjectService projectService) {
         this.backlogRepository = backlogRepository;
         this.projectTaskRepository = projectTaskRepository;
+        this.projectService = projectService;
     }
 
     @Override
-    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
+    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask, String username) {
         //PTs to be added to a specific project, project != null, BL exists
-        Backlog backlog = this.getBacklogById(projectIdentifier);
+        Backlog backlog = projectService.findProjectByIdentifier(projectIdentifier, username).getBacklog();
         //set the bl to pt
         projectTask.setBacklog(backlog);
         //we want our project sequence to be like this: IDPRO-1  IDPRO-2  ...100 101
@@ -49,9 +54,9 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
     }
 
     @Override
-    public Iterable<ProjectTask> findBacklogById(String backlog_id) {
-        Iterable<ProjectTask> projectTask = this.getProjectTaskRecord(backlog_id);
-        return projectTask;
+    public Iterable<ProjectTask> findBacklogById(String backlog_id, String username) {
+        projectService.findProjectByIdentifier(backlog_id, username);
+        return this.getProjectTaskRecord(backlog_id);
     }
 
     @Override

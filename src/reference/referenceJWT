@@ -33,3 +33,6 @@ branch 68
 
 lock specific user (update project)
 branch 69
+
+lock create read project task
+branch 70
