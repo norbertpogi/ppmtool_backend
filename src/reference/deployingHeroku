@@ -1,0 +1,27 @@
+1. install heroku cli
+2. copy your project to different folder
+3. open your copied project to ide
+4. from ide use bash command then login to heroku
+   4.1. heroku login
+   4.2. heroku config --app yourAppName
+   4.3. copy the db url to spring.datasource.url
+   CLEARDB_DATABASE_URL: mysql://b74dbdbbd559a8:f71afd23@us-cdbr-east-05.cleardb.net/heroku_88458e969b340fd?reconnect=true
+        expected:
+            spring.datasource.url = jdbc:mysql://us-cdbr-east-05.cleardb.net/heroku_88458e969b340fd?reconnect=true
+   4.3. copy your datasource username and password from CLEARDB_DATABASE_URL
+        expected:
+            spring.datasource.username=b74dbdbbd559a8
+            spring.datasource.password=f71afd23
+
+5. connect mysqlLocal to heroku
+    5.1. click clearDb in heroku>how to connect>my sql workbench
+    5.2. go to local workbench click add new connection
+    5.3. copy the credential from your CLEARDB_DATABASE_URL
+    expected:
+        hostname: us-cdbr-east-05.cleardb.net
+        username: b74dbdbbd559a8
+        password: f71afd23
+        default schema: heroku_88458e969b340fd
+    5.4. click ok and test connection
+    5.5. click connect
+6. run your spring boot app you can add other port if conflict
